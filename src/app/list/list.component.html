@@ -1,19 +1,136 @@
 <nav class="navbar navbar-light bg-light">
   <a class="navbar-brand" href="#">TO DO LIST</a> 
-  <button class="btn btn-primary" (click)="addTask()">Adicionar Tarefa</button>
+  <button class="btn btn-primary" data-toggle="modal" data-target="#createTaskModal">
+    Adicionar Tarefa
+  </button>
 </nav>
 
-<div class="card" style="width: 18rem;" *ngFor="let task of taskList; let i = index">
-  <div class="card-body">
-    <h5 class="card-title">Tarefa: {{i + 1}}</h5>
-    <h6 class="card-subtitle mb-2 text-muted">Titulo:</h6>
-    <div class="form-group">
-      <input class="form-control" [(ngModel)]="task.title" type="text">
+<div class="container">
+  <div class="row">
+    <div class="col-4" *ngFor="let task of tasks">
+      <div class="card mx-auto" style="width: 20rem;">
+        <div class="card-body">
+          <h3 class="card-title">{{task.titulo}}</h3>
+          <p class="card-subtitle mb-2 text-muted">{{task.descricao}}</p>
+          <a 
+            href="#"
+            class="card-link"
+            data-toggle="modal"
+            data-target="#updateTaskModal"
+            (click)='setSelectedTask(task)'
+          >
+            Editar
+          </a>
+          <a href="#" class="card-link" (click)='removeTask(task.id)'>Excluir</a>
+        </div>
+
+        <div 
+          class="modal fade"
+          id="updateTaskModal"
+          tabindex="-1"
+          role="dialog"
+          aria-labelledby="updateTaskModalLabel"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="updateTaskModalLabel">Atualizar tarefa</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+               
+                  <h6 class="card-subtitle mb-2 text-muted">Título:</h6>
+                  <div class="form-group">
+                    <input class="form-control" [(ngModel)]="selectedTask.titulo" name="titulo" type="text">
+                  </div>
+                  <h6 class="card-subtitle mb-2 text-muted">Descrição:</h6>
+                  <div class="form-group">
+                    <textarea 
+                      [(ngModel)]="selectedTask.descricao" 
+                      class="form-control" 
+                      name="descricao"
+                      rows="3"
+                    ></textarea>
+                  </div>
+              </div>
+              <div class="modal-footer">
+                <button
+                  type="submit"
+                  class="btn btn-primary mr-2"
+                  data-dismiss="modal" 
+                  (click)='updateTask()'
+                >
+                  Atualizar
+                </button>
+                <button 
+                  type="button"
+                  class="btn btn-outline-secondary"
+                  data-dismiss="modal"
+                >
+                  Cancelar
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    <h6 class="card-subtitle mb-2 text-muted">Descrição:</h6>
-    <div class="form-group">
-      <textarea class="form-control" [(ngModel)]="task.title" rows="3"></textarea>
+  </div>
+
+  <div 
+    class="modal fade"
+    id="createTaskModal"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="createTaskModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="createTaskModalLabel">Criar nova tarefa</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+          <div class="modal-body">
+              <h6 class="card-subtitle mb-2 text-muted">Título:</h6>
+              <div class="form-group">
+                <input class="form-control" [(ngModel)]="task.titulo" name="titulo" type="text">
+              </div>
+              <h6 class="card-subtitle mb-2 text-muted">Descrição:</h6>
+              <div class="form-group">
+                <textarea 
+                  [(ngModel)]="task.descricao" 
+                  class="form-control" 
+                  name="descricao"
+                  rows="3"
+                ></textarea>
+              </div>
+              
+            </div>
+            <div class="modal-footer">
+              <button
+              type="submit"
+              class="btn btn-primary mr-2"
+              data-dismiss="modal" 
+              (click)='createNewTask()'
+              >
+              Criar nova tarefa
+            </button>
+            <button 
+            type="button"
+            class="btn btn-outline-secondary"
+            data-dismiss="modal"
+            >
+              Cancelar
+            </button>
+          </div>
+      </div>
     </div>
-    <a href="#" class="card-link" (click)='removeTask(i)'>excluir</a>
   </div>
 </div>
+
